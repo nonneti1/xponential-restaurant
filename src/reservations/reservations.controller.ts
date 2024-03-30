@@ -4,6 +4,7 @@ import { BookingReservationDto, CancelReservationDto } from './dto/reservation.d
 import { Canceling, Reservation } from './reservations.model';
 import { ResponseMessage } from '../decorators/response_message.decorator';
 import { RestaurantService } from '../restaurants/restaurants.service';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('/reservations')
 export class ReservationsController {
@@ -17,10 +18,10 @@ export class ReservationsController {
     */
     @Post("/reserve")
     @ResponseMessage('Reservation created')
+    @ApiResponse({ status: 400, description: "error booking a reservation" })
+    @ApiResponse({ status: 201, description: 'successfully booking a reservation' })
     reserve(@Body() BookingReservationDto: BookingReservationDto) {
         try {
-
-
             const result: Reservation = this._reservationService.booking(BookingReservationDto)
             return result
         } catch (error) {
@@ -36,6 +37,8 @@ export class ReservationsController {
     */
     @Post("/cancel")
     @ResponseMessage('Reservation cancelled')
+    @ApiResponse({ status: 400, description: "error canceling a reservation" })
+    @ApiResponse({ status: 201, description: 'successfully canceling a reservation' })
     cancel(@Body() CancelReservationDto: CancelReservationDto) {
         try {
             const result: Canceling = this._reservationService.canceling(CancelReservationDto);
