@@ -9,7 +9,7 @@ CUSTOM_CONTAINER_PORT="3000:3000"
 TAG=$(date +"%Y%m%d-%H%M")
 FULL_IMAGE_NAME="${IMAGE_NAME}:${TAG}"
 
-npm run build
+yarn build
 docker build -t $FULL_IMAGE_NAME .
 docker run -d --name $CONTAINER_NAME-$TAG -e $CUSTOM_SERVICE_PORT -p $CUSTOM_CONTAINER_PORT $FULL_IMAGE_NAME
 $SHELL
